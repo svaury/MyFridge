@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/dialogLayout"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@id/productImageView"
+        android:layout_width="200dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="200dp" />
+
+    <TextView
+        android:id="@+id/productTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_gravity="center_horizontal"
+        />
+    <DatePicker
+        android:id="@+id/productDatePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        style="@style/datepicker">
+
+    </DatePicker>
+
+        <TimePicker
+            android:id="@+id/productTimePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            style="@style/timepicker"
+            >
+        </TimePicker>
+        <Button
+            android:id="@+id/validButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Valider"/>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+
+</LinearLayout>

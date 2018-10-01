@@ -1,0 +1,22 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item></style>
+
+
+    <style name="datepicker" parent="@android:style/Widget.Material.DatePicker">
+        <item name="android:datePickerMode">spinner</item>
+        <item name="android:calendarViewShown">false</item>
+        <item name="colorControlNormal">@color/black</item>
+    </style>
+
+    <style name="timepicker" parent="@android:style/Widget.Material.TimePicker">
+        <item name="android:timePickerMode">spinner</item>
+        <item name="colorControlNormal">@color/black</item>
+    </style>
+
+</resources>
