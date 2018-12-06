@@ -46,9 +46,6 @@ public class FridgeListFragment extends Fragment implements ProductView {
     @Inject
     FoodPresenterImpl foodPresenter;
 
-    @Inject
-    FirebaseDatabase database;
-
     @BindView(R.id.rvProducts)
     RecyclerView recyclerView;
 
@@ -79,17 +76,6 @@ public class FridgeListFragment extends Fragment implements ProductView {
 
         ItemTouchHelper ith = new ItemTouchHelper(new CustomItemTouchHelperCallback(productAdapter));
         ith.attachToRecyclerView(recyclerView);
-        database.getReference("products").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.i("Change ","Change "+ dataSnapshot);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
         return view;
     }

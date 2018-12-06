@@ -4,19 +4,15 @@ import android.content.Context
 import android.util.Log
 import com.example.svaury.myfridge.App
 import com.example.svaury.myfridge.data.entities.ProductEntity
+import com.example.svaury.myfridge.data.net.ProductDo
 import com.example.svaury.myfridge.domain.ProductDbUseCase
 import com.example.svaury.myfridge.presentatio.model.Product
 import com.example.svaury.myfridge.domain.Mappers
 import com.example.svaury.myfridge.presentatio.view.ProductView
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 
 
 import javax.inject.Inject
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DataSnapshot
-
-import com.google.firebase.database.ChildEventListener
-
 
 
 /**
@@ -39,6 +35,19 @@ class FoodPresenterImpl : FoodPresenter {
         App.netComponent.inject(this)
 
         this.productView = productView
+
+        database.getReference("products").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                Log.i("Change ", "Change $dataSnapshot")
+
+                var products =  dataSnapshot?.value as HashMap<String,ProductDo>
+                removeProducts(products)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+
+            }
+        })
 
         database?.reference?.child("products")?.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot?, prevChildKey: String?) {
@@ -91,6 +100,15 @@ class FoodPresenterImpl : FoodPresenter {
                 productView.addProductList(Mappers.entityToProduct(productEntity))
             }
         }
+
+    }
+
+    fun removeProducts(products : Map<String,ProductDo>){
+        productDbUseCase.getProducts()
+                .flatMapIterable { products -> products }
+                .filter{product -> !products.containsKey(product.firebaseKey)}
+                .subscribe{product -> removeProduct(Mappers.entityToProduct(product))}
+
 
     }
     fun removeProduct(product: Product) {
