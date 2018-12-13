@@ -100,6 +100,7 @@ class FoodPresenterImpl : FoodPresenter {
         isEmpty.observeOn(AndroidSchedulers.mainThread())
                 .subscribe { it->
             if(it){
+
                 productDbUseCase.insertProduct(productEntity).subscribe({},{t->t.printStackTrace()})
                 productView.addProductList(Mappers.entityToProduct(productEntity))
             }

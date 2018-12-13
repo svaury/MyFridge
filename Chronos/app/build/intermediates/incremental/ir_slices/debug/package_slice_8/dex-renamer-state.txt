@@ -1,4 +1,0 @@
-#Thu Dec 06 13:05:37 CET 2018
-base.0=/home/takima/projects/MyFridge/MyFridge/Chronos/app/build/intermediates/transforms/dexMerger/debug/256
-path.0=classes.dex
-renamed.0=classes.dex

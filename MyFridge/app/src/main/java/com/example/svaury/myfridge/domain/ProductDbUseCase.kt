@@ -31,6 +31,7 @@ class ProductDbUseCase: UseCase{
             Maybe.fromCallable {productDbHelper.productDao().all}
                     .toObservable()
                     .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
 
 
     fun deleteProduct(productEntity: ProductEntity){
@@ -45,6 +46,7 @@ class ProductDbUseCase: UseCase{
             Maybe.fromCallable {productDbHelper.productDao().findByFireBaseId(key)}
                     .toObservable()
                     .subscribeOn(Schedulers.io())
+
 
     fun findProductById(id:Long):Observable<ProductEntity> =
             Maybe.fromCallable {productDbHelper.productDao().findById(id)}
