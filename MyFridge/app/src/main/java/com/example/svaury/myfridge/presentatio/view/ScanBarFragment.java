@@ -2,6 +2,7 @@ package com.example.svaury.myfridge.presentatio.view;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -37,7 +38,7 @@ import butterknife.ButterKnife;
  * Created by cbm0447 on 22/12/2017.
  */
 
-public class ScanBarFragment extends Fragment implements SurfaceHolder.Callback, Detector.Processor<Barcode> {
+public class ScanBarFragment extends Fragment implements SurfaceHolder.Callback, Detector.Processor<Barcode>, DismissDialogListener {
 
 
     @BindView(R.id.camera_view)
@@ -147,10 +148,16 @@ public class ScanBarFragment extends Fragment implements SurfaceHolder.Callback,
                 ft.remove(prev);
             }
             ProductDialog newFragment = ProductDialog.Companion.newInstance(value);
+            newFragment.setDismissDialogListener(this);
             newFragment.setTargetFragment(this,Activity.RESULT_OK);
             newFragment.show(ft,"dialog");
-
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("Resume","Resume");
     }
 
     public void removeFragment(){
@@ -176,5 +183,10 @@ public class ScanBarFragment extends Fragment implements SurfaceHolder.Callback,
     public void onDestroy() {
         super.onDestroy();
         stopCamera();
+    }
+
+    @Override
+    public void dismissDialog() {
+        alreadyScan = false;
     }
 }

@@ -10,6 +10,7 @@ import com.example.svaury.myfridge.presentatio.model.Product
 import com.example.svaury.myfridge.domain.Mappers
 import com.example.svaury.myfridge.presentatio.view.ProductView
 import com.google.firebase.database.*
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 
 import javax.inject.Inject
@@ -82,6 +83,7 @@ class FoodPresenterImpl : FoodPresenter {
         productDbUseCase.getProducts()
                 .flatMapIterable { products -> products }
                 .map { productEntity -> productEntityFromProductMapper(productEntity) }
+                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { product -> productView.addProductList(product) }
 
     }
@@ -94,9 +96,11 @@ class FoodPresenterImpl : FoodPresenter {
 
     fun addProductIntoList(productEntity: ProductEntity){
         var isEmpty = productDbUseCase.findProductByFireBaseKey(productEntity.firebaseKey).isEmpty
-        isEmpty.subscribe { it->
+
+        isEmpty.observeOn(AndroidSchedulers.mainThread())
+                .subscribe { it->
             if(it){
-                productDbUseCase.insertProduct(productEntity).subscribe()
+                productDbUseCase.insertProduct(productEntity).subscribe({},{t->t.printStackTrace()})
                 productView.addProductList(Mappers.entityToProduct(productEntity))
             }
         }
@@ -107,16 +111,23 @@ class FoodPresenterImpl : FoodPresenter {
         productDbUseCase.getProducts()
                 .flatMapIterable { products -> products }
                 .filter{product -> !products.containsKey(product.firebaseKey)}
-                .subscribe{product -> removeProduct(Mappers.entityToProduct(product))}
-
+                .subscribe({
+                    product -> removeProduct(Mappers.entityToProduct(product))
+                },{
+                    it-> it.printStackTrace()
+                })
 
     }
     fun removeProduct(product: Product) {
+        Log.i("Remove Product","Remove product" )
+
         productDbUseCase.deleteProduct(Mappers.productToEntity(product))
         productView.removeProductList(product)
     }
 
     override fun removeItem(product: Product) {
+
+        Log.i("Remove Item","Remove Item ")
         productDbUseCase.deleteProduct(Mappers.productToEntity(product))
         deleteProductToFireBase(product)
     }

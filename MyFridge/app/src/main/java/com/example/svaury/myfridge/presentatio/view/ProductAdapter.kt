@@ -18,15 +18,16 @@ import javax.inject.Inject
 class ProductAdapter(products:ArrayList<Product>): RecyclerView.Adapter<ProductsHolder>() {
 
 
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ProductsHolder {
+        App.netComponent.inject(this)
+        val view: View = LayoutInflater.from(p0?.context).inflate(R.layout.product_description_layout,p0,false)
+        return ProductsHolder(view)
+    }
+
+
     var products : ArrayList<Product> =  products
     @Inject lateinit var foodPresenter:FoodPresenterImpl
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ProductsHolder {
-
-        App.netComponent.inject(this)
-        val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.product_description_layout,parent,false)
-        return ProductsHolder(view)
-    }
 
     override fun onBindViewHolder(holder: ProductsHolder, position: Int) {
 

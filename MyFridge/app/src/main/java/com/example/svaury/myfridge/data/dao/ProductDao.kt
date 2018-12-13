@@ -27,4 +27,7 @@ interface ProductDao {
 
     @Delete
     fun delete(product: ProductEntity)
+
+    @Query("DELETE FROM productentity WHERE FireBaseKey LIKE :key")
+    fun deleteEntity(key:String)
 }

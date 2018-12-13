@@ -19,6 +19,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.ALARM_SERVICE
+import android.content.DialogInterface
 import android.os.Build
 import com.example.svaury.myfridge.domain.Mappers
 
@@ -44,12 +45,16 @@ class ProductDialog : DialogFragment(),ProductDetailView {
 
     var progressBar : ProgressBar ?=null
 
+    var dismissDialogListener : DismissDialogListener ?= null;
+
 
     private var codeBar:String= ""
 
     @Inject lateinit var presenter: ProductDialogPresenter
 
     @Inject lateinit var cont: Context
+
+
 
     companion object {
         fun newInstance(productBarCode: String): ProductDialog {
@@ -64,10 +69,18 @@ class ProductDialog : DialogFragment(),ProductDetailView {
     }
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App.netComponent.inject(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        getDialog().setOnDismissListener(DialogInterface.OnDismissListener {
+
+            dismissDialogListener?.dismissDialog()
+        })
     }
 
 
@@ -142,8 +155,12 @@ class ProductDialog : DialogFragment(),ProductDetailView {
         intent.putExtra("requestCode",id)
 
         val pendingIntent = PendingIntent.getBroadcast(context, id.toInt(), intent,0)
-        mgrAlarm.setExact(AlarmManager.RTC_WAKEUP, getTimeInMillis(), pendingIntent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mgrAlarm.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, getTimeInMillis(), pendingIntent)
+        }else{
+            mgrAlarm.setExact(AlarmManager.RTC_WAKEUP, getTimeInMillis(), pendingIntent)
 
+        }
     }
 
 }
