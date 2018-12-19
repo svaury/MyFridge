@@ -1,6 +1,5 @@
 package com.example.svaury.myfridge.domain
 
-import android.util.Log
 import com.example.svaury.myfridge.App
 import com.example.svaury.myfridge.data.ProductDBHelper
 import com.example.svaury.myfridge.data.entities.ProductEntity

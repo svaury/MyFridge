@@ -1,6 +1,11 @@
 package com.example.svaury.myfridge.presentatio.presenter
 
+import android.app.Activity
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.util.Log
 import com.example.svaury.myfridge.App
 import com.example.svaury.myfridge.data.entities.ProductEntity
@@ -8,6 +13,7 @@ import com.example.svaury.myfridge.data.net.ProductDo
 import com.example.svaury.myfridge.domain.ProductDbUseCase
 import com.example.svaury.myfridge.presentatio.model.Product
 import com.example.svaury.myfridge.domain.Mappers
+import com.example.svaury.myfridge.presentatio.view.OnAlarmReceiver
 import com.example.svaury.myfridge.presentatio.view.ProductView
 import com.google.firebase.database.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -100,12 +106,30 @@ class FoodPresenterImpl : FoodPresenter {
         isEmpty.observeOn(AndroidSchedulers.mainThread())
                 .subscribe { it->
             if(it){
-
-                productDbUseCase.insertProduct(productEntity).subscribe({},{t->t.printStackTrace()})
+                productDbUseCase.insertProduct(productEntity)
+                        .subscribe({uid ->
+                    registerPeremptionAlarm(uid,productEntity)
+                    },{t->t.printStackTrace()})
                 productView.addProductList(Mappers.entityToProduct(productEntity))
             }
         }
 
+    }
+
+    fun registerPeremptionAlarm(id:Long, productEntity: ProductEntity){
+
+        val mgrAlarm = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        val intent = Intent(context, OnAlarmReceiver::class.java)
+        intent.putExtra("requestCode",id)
+
+        val pendingIntent = PendingIntent.getBroadcast(context, id.toInt(), intent,0)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mgrAlarm.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, productEntity.peremptionDate, pendingIntent)
+        }else{
+            mgrAlarm.setExact(AlarmManager.RTC_WAKEUP, productEntity.peremptionDate, pendingIntent)
+
+        }
     }
 
     fun removeProducts(products : Map<String,ProductDo>){
