@@ -73,7 +73,6 @@ public class FridgeListFragment extends Fragment implements ProductView {
         foodPresenter.init(this);
         productAdapter = new ProductAdapter(productDetails);
         recyclerView.setAdapter(productAdapter);
-
         ItemTouchHelper ith = new ItemTouchHelper(new CustomItemTouchHelperCallback(productAdapter));
         ith.attachToRecyclerView(recyclerView);
 

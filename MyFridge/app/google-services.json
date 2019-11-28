@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "490441481961",
+    "firebase_url": "https://myfridge-ef4b1.firebaseio.com",
+    "project_id": "myfridge-ef4b1",
+    "storage_bucket": "myfridge-ef4b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:490441481961:android:98b0d84c05175c75",
+        "android_client_info": {
+          "package_name": "com.example.svaury.myfridge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "490441481961-o4k4efttosijk7vs6pj4g7hs97b2pr2f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.svaury.myfridge",
+            "certificate_hash": "5efe91354690c29f18553d0a7dc9c106f5eb02ab"
+          }
+        },
+        {
+          "client_id": "490441481961-39tpuv0dc7gf7r1tkeci8s1us7r7tp7o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTDki9vvGMVFWWl3T3lRoLmZ5JO4tZ2Rs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "490441481961-39tpuv0dc7gf7r1tkeci8s1us7r7tp7o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -47,8 +47,10 @@ class FoodPresenterImpl : FoodPresenter {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 Log.i("Change ", "Change $dataSnapshot")
 
-                var products =  dataSnapshot?.value as HashMap<String,ProductDo>
-                removeProducts(products)
+                dataSnapshot?.value?.let{
+                    var products =  it as HashMap<String,ProductDo>
+                    removeProducts(products)
+                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
